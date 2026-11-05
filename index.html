@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="sem-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Luvie Studios — convites digitais que contam a história de vocês</title>
+<meta name="description" content="A Luvie cria convites digitais em forma de minisite: história, local, cronograma, RSVP e tudo o que o convidado precisa saber, em um link só.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400&family=Italiana&family=Montserrat:wght@400;500&display=swap">
+<style>
+/* Quesha (NimaVisual): confirmar licença de uso na web antes de publicar o site. */
+@font-face { font-family: "Quesha"; src: url("fonts/Quesha.ttf") format("truetype"); font-display: swap; }
+:root{
+  --vinho:#61122b; --oliva:#535d17; --marrom:#4f2100;
+  --creme:#fff0cf; --rosa:#eac5c7; --salvia:#b4bf8f; --rosa-velho:#b26e6e; --verde-claro:#c3d28e;
+  --f-display:"Quesha","Italiana",Georgia,serif;
+  --f-frase:"Montserrat",system-ui,sans-serif;
+  --f-apoio:"Montserrat",system-ui,sans-serif;
+  --wa:"https://wa.me/5519997556518";
+  --max:68rem;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:4.5rem}
+body{margin:0;background:var(--creme);color:var(--vinho);font:400 1rem/1.65 var(--f-apoio);-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--oliva);outline-offset:3px;border-radius:4px}
+.wrap{width:min(100% - 2.5rem,var(--max));margin-inline:auto}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;line-height:.92;margin:0;letter-spacing:.01em}
+h2{font-size:clamp(2.6rem,8.6vw,5rem)}
+h3{font-size:clamp(1.8rem,5.4vw,2.5rem);line-height:1}
+p{margin:0}
+.frase{font-family:var(--f-frase);font-size:clamp(1.1rem,3vw,1.3rem);line-height:1.55}
+section{padding-block:clamp(4rem,11vw,7.5rem)}
+.lead{max-width:34rem}
+
+/* estrela */
+.star{width:1em;height:1em;fill:currentColor;flex:none}
+
+/* botões */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;min-height:3.25rem;padding:.8rem 1.6rem;border-radius:999px;font:500 .98rem/1.2 var(--f-apoio);text-decoration:none;border:1.5px solid var(--vinho);transition:background .2s,color .2s,transform .2s}
+.btn-cheio{background:var(--vinho);color:var(--creme)}
+.btn-cheio:hover{background:#4a0d21}
+.btn-linha{background:transparent;color:var(--vinho)}
+.btn-linha:hover{background:var(--vinho);color:var(--creme)}
+.btn-oliva{background:var(--oliva);border-color:var(--oliva);color:var(--creme)}
+.btn-oliva:hover{background:#434b12}
+.btn:active{transform:scale(.98)}
+.envelope.fechado .env-carta .btn{visibility:hidden}
+
+/* topo */
+.topo{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--oliva) 96%,transparent);color:var(--creme)}
+.topo .wrap{display:flex;align-items:center;justify-content:space-between;min-height:4rem;gap:1rem}
+.marca-mini{font-family:var(--f-display);font-size:2rem;text-decoration:none;display:flex;align-items:center;gap:.35rem}
+.marca-mini .star{width:.6em;height:.6em;color:var(--rosa)}
+.menu{display:flex;gap:1.6rem;list-style:none;margin:0;padding:0;font-size:.9rem}
+.menu a{text-decoration:none;opacity:.92}
+.menu a:hover{opacity:1;text-decoration:underline;text-underline-offset:.3em}
+.topo .btn{min-height:2.5rem;padding:.45rem 1.1rem;font-size:.86rem;background:var(--creme);color:var(--vinho);border-color:var(--creme)}
+.menu-botao{display:none;background:none;border:0;color:var(--creme);padding:.5rem;cursor:pointer}
+.menu-botao svg{width:1.6rem;height:1.6rem}
+@media (max-width:860px){
+  .menu{display:none;position:absolute;inset:4rem 0 auto 0;flex-direction:column;gap:0;background:var(--oliva);padding:.5rem 1.25rem 1.25rem}
+  .menu.aberto{display:flex}
+  .menu a{display:block;padding:.85rem 0;border-bottom:1px solid rgba(255,240,207,.2);font-size:1.05rem}
+  .menu-botao{display:block}
+  .topo .btn{display:none}
+}
+
+/* abertura */
+.abertura{background:var(--creme);position:relative;overflow:hidden;padding-block:clamp(3.5rem,10vw,6.5rem) clamp(4rem,10vw,6rem);text-align:center}
+.wordmark{font-family:var(--f-display);color:var(--oliva);font-size:clamp(7rem,32vw,15rem);line-height:.9;display:inline-flex;align-items:flex-end;position:relative}
+.wordmark .L{position:relative}
+.wordmark .L .star{position:absolute;width:.2em;height:.2em;left:.2em;top:.42em;color:var(--vinho)}
+.logo-box{position:relative;width:min(26rem,78vw);margin:0 auto}
+.logo{width:100%;height:auto;display:block}
+.logo-estrela{position:absolute;left:21.9%;top:40.4%;width:10.1%;height:auto;transform-origin:50% 50%}
+@media (prefers-reduced-motion:no-preference){
+  .logo-estrela{animation:estrela-chega 1.2s cubic-bezier(.3,1.4,.5,1) .5s both,estrela-brilha 6s ease-in-out 2.4s infinite}
+  .logo-box:hover .logo-estrela{animation:estrela-gira .9s cubic-bezier(.3,1.3,.5,1)}
+}
+@keyframes estrela-chega{0%{opacity:0;transform:scale(0) rotate(-120deg)}60%{opacity:1}100%{opacity:1;transform:scale(1) rotate(0)}}
+@keyframes estrela-brilha{0%,82%,100%{transform:scale(1);filter:none}88%{transform:scale(1.22) rotate(8deg);filter:drop-shadow(0 0 6px rgba(178,110,110,.7))}94%{transform:scale(.96) rotate(-3deg)}}
+@keyframes estrela-gira{from{transform:rotate(0) scale(1.1)}to{transform:rotate(360deg) scale(1)}}
+.studios{font-family:var(--f-apoio);color:var(--vinho);letter-spacing:.55em;font-size:clamp(.8rem,2.4vw,1.05rem);margin:.4rem 0 0 .55em}
+.abertura h1{font-size:clamp(2.3rem,8vw,4.4rem);margin-top:clamp(2rem,6vw,3rem);color:var(--vinho)}
+.abertura .sub{margin:1rem auto 0;max-width:30rem;font-size:1.05rem}
+.acoes{display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center;margin-top:2rem}
+.brilhos{position:absolute;inset:0;pointer-events:none;color:var(--rosa-velho)}
+.brilhos .star{position:absolute;opacity:.55}
+.abertura .wrap{position:relative;z-index:1}
+@media (max-width:600px){.brilhos .star:nth-child(-n+4){display:none}}
+@media (prefers-reduced-motion:no-preference){
+  .abertura .logo{animation:entra 1.1s cubic-bezier(.2,.7,.2,1) both}
+  .abertura .entra{opacity:0;transform:translateY(12px);animation:entra .9s cubic-bezier(.2,.7,.2,1) forwards}
+  .abertura .entra:nth-child(2){animation-delay:.15s}
+  .abertura .entra:nth-child(3){animation-delay:.3s}
+  .abertura .entra:nth-child(4){animation-delay:.45s}
+  .wordmark .L .star{animation:pisca 1.6s .9s ease-in-out 1}
+}
+@keyframes entra{to{opacity:1;transform:none}}
+@keyframes pisca{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.6) rotate(45deg)}}
+
+/* papel rasgado */
+.papel{background:var(--creme);position:relative}
+.papel::before{display:none;content:"";position:absolute;left:0;right:0;top:-18px;height:20px;background:var(--creme);
+  clip-path:polygon(0 60%,4% 30%,9% 55%,14% 20%,20% 50%,26% 25%,31% 60%,37% 35%,43% 55%,49% 15%,55% 50%,61% 30%,67% 60%,73% 25%,79% 55%,85% 30%,91% 60%,96% 35%,100% 55%,100% 100%,0 100%)}
+.fragmentos{display:grid;gap:2.5rem}
+.fragmentos ul{list-style:none;padding:0;margin:0;display:grid;gap:.35rem}
+.fragmentos li{font-family:var(--f-frase);font-size:clamp(1.1rem,3.2vw,1.3rem);display:flex;gap:.6rem;align-items:center}
+.fragmentos li .star{width:.5em;height:.5em;color:var(--rosa-velho)}
+@media (min-width:760px){.fragmentos{grid-template-columns:1fr 1fr;align-items:center}}
+
+/* fio da história: o momento da página */
+.fio{background:var(--creme);padding-top:0}
+.fio-lista{list-style:none;margin:0 auto;padding:0;max-width:30rem;position:relative}
+.fio-lista::before{content:"";position:absolute;left:1.15rem;top:1.4rem;bottom:1.4rem;width:2px;background:var(--rosa)}
+.fio-lista::after{content:"";position:absolute;left:1.15rem;top:1.4rem;width:2px;height:calc((100% - 2.8rem) * var(--p,0));background:var(--vinho);transition:height .5s ease}
+.fio-lista li{display:grid;grid-template-columns:2.5rem 1fr;gap:1.25rem;align-items:start;padding-block:1.1rem}
+.fio-lista .no{width:2.5rem;height:2.5rem;border-radius:50%;background:var(--creme);display:grid;place-items:center;position:relative;z-index:1;color:var(--rosa);transition:color .5s}
+.fio-lista .no .star{width:1.5rem;height:1.5rem}
+.fio-lista li.aceso .no{color:var(--vinho)}
+.fio-lista h3{color:var(--oliva);line-height:1;margin-top:.15rem}
+.fio-lista p{margin-top:.35rem;color:var(--marrom)}
+.fio-fecho{text-align:center;max-width:32rem;margin:3rem auto 0}
+
+/* a luvie */
+.sobre{background:var(--creme)}
+.sobre .wrap{display:grid;gap:2rem}
+.sobre .texto{display:grid;gap:1.1rem;font-size:1.08rem;max-width:36rem}
+.sobre .assin{color:var(--oliva);display:flex;align-items:center;gap:.5rem}
+@media (min-width:860px){.sobre .wrap{grid-template-columns:18rem 1fr}}
+
+/* como funciona */
+.passos{background:var(--rosa)}
+.passos h2{text-align:center}
+.passos ol{list-style:none;margin:3rem 0 0;padding:0;display:grid;gap:2.5rem;counter-reset:p}
+.passos li{text-align:center;max-width:22rem;margin-inline:auto}
+.selo{width:4.5rem;height:4.5rem;margin:0 auto 1rem;border-radius:50%;background:var(--vinho);color:var(--creme);display:grid;place-items:center;font-family:var(--f-display);font-size:2.6rem;box-shadow:0 0 0 5px var(--rosa),0 0 0 6.5px var(--vinho)}
+.passos p{margin-top:.5rem;color:var(--marrom)}
+.passos .acoes{margin-top:3rem}
+@media (min-width:860px){.passos ol{grid-template-columns:repeat(3,1fr)}}
+
+/* universos */
+.universos{background:var(--verde-claro)}
+.universos h2{text-align:center}
+.universos .intro{text-align:center;margin:1rem auto 0}
+.cards{display:grid;gap:3rem;margin-top:3.5rem}
+.produto{text-align:center;display:flex;flex-direction:column;align-items:center}
+.moldura{width:min(15rem,56vw);aspect-ratio:4/5;border-radius:50%;padding:.7rem;background:
+  conic-gradient(from 200deg,#c89b52,#f2d79a,#b98a3e,#f2d79a,#c89b52);box-shadow:0 10px 30px rgba(79,33,0,.18)}
+.slot{margin:0;width:100%;height:100%;border-radius:inherit;overflow:hidden;background:
+  radial-gradient(circle at 30% 30%,var(--creme),var(--rosa));display:grid;place-items:center;position:relative}
+.slot img{width:100%;height:100%;object-fit:cover}
+.slot figcaption{font-size:.8rem;color:var(--marrom);padding:1rem;text-align:center}
+.slot:has(img) figcaption{display:none}
+.produto h3{margin-top:1.5rem}
+.produto .preco{display:none}
+.preco{font-family:var(--f-display);font-size:2rem;color:var(--oliva);margin-top:.2rem}
+.produto p.desc{margin-top:.6rem;max-width:20rem;color:var(--marrom)}
+.produto .btn{margin-top:1.4rem}
+@media (min-width:860px){.cards{grid-template-columns:repeat(3,1fr);gap:2rem}}
+
+/* detalhes */
+.detalhes{background:var(--creme)}
+.duas{display:grid;gap:3rem}
+.bloco h3{font-size:clamp(2.4rem,7.4vw,3.4rem)}
+.bloco .p-alvo{margin-top:.8rem;color:var(--marrom)}
+.bloco ul{margin:1.2rem 0 0;padding:0;list-style:none;display:grid;gap:.45rem}
+.bloco li{display:flex;gap:.6rem;align-items:baseline}
+.bloco li .star{width:.65em;height:.65em;color:var(--rosa-velho);transform:translateY(.05em)}
+.bloco .btn{margin-top:1.8rem}
+.bloco-universe h3{color:var(--oliva)}
+@media (min-width:860px){.duas{grid-template-columns:1fr 1fr;gap:4rem}}
+.tabela-wrap{margin-top:4rem}
+.tabela-wrap h3{text-align:center}
+table{width:100%;max-width:36rem;margin:1.5rem auto 0;border-collapse:collapse;font-size:.95rem}
+th,td{padding:.7rem .5rem;border-bottom:1px solid var(--rosa);text-align:center}
+th:first-child,td:first-child{text-align:left}
+thead th{font-weight:500;color:var(--oliva)}
+td.sim{color:var(--vinho)}
+td.nao{color:var(--rosa-velho)}
+
+/* editions: cartões de renda presos num prendedor */
+.editions{background:var(--vinho);color:var(--creme)}
+.editions .topo-sec{display:grid;gap:1rem;max-width:36rem}
+.editions .topo-sec p{color:#f3dfe3}
+.templates{display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:3rem 2rem;margin-top:3rem}
+.template{text-align:center;display:flex;flex-direction:column;align-items:center}
+.prancheta{position:relative;width:min(16rem,72vw);aspect-ratio:631/1077;background:url("img/prancheta-renda.webp") center/contain no-repeat;filter:drop-shadow(0 12px 16px rgba(0,0,0,.35))}
+.prancheta-miolo{position:absolute;top:23.5%;right:10%;bottom:13.5%;left:12%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;color:var(--vinho);text-align:center;padding:.4rem}
+.prancheta-miolo .slot{width:100%;flex:1;height:auto;min-height:0;border-radius:2px;background:linear-gradient(160deg,#f6ecd6,#e6d5ad)}
+.prancheta-miolo h3{font-size:1.55rem;margin-top:.4rem}
+.prancheta-miolo .preco{font-size:1.25rem;margin:0}
+.template .btn{margin-top:1.6rem;background:var(--creme);color:var(--vinho);border-color:var(--creme)}
+.template .btn:hover{background:transparent;color:var(--creme)}
+.template:nth-child(1) .prancheta{--r:-2deg}.template:nth-child(2) .prancheta{--r:1.5deg}.template:nth-child(3) .prancheta{--r:-1deg}
+
+/* galeria */
+.galeria{background:var(--creme);overflow-x:clip}
+.galeria h2,.galeria .intro{text-align:center}
+.galeria .intro{margin:1rem auto 0}
+.tira-wrap{width:100vw;margin:3rem 0 0 calc(50% - 50vw);filter:drop-shadow(0 12px 16px rgba(79,33,0,.2));transform:rotate(-1.2deg)}
+.tira{position:relative}
+.tira-fundo{position:absolute;inset:0;background:#fffdf8;clip-path:polygon(0.00% 7.2px, 0.71% 6.4px, 1.43% 6.0px, 2.14% 8.0px, 2.86% 6.6px, 3.57% 8.9px, 4.29% 6.5px, 5.00% 7.1px, 5.71% 8.1px, 6.43% 6.8px, 7.14% 6.1px, 7.86% 5.1px, 8.57% 5.2px, 9.29% 4.6px, 10.00% 3.7px, 10.71% 6.1px, 11.43% 2.7px, 12.14% 1.5px, 12.86% 2.1px, 13.57% 1.3px, 14.29% 1.8px, 15.00% 1.7px, 15.71% 2.3px, 16.43% 2.7px, 17.14% 3.5px, 17.86% 5.4px, 18.57% 3.6px, 19.29% 2.0px, 20.00% 1.9px, 20.71% 0.9px, 21.43% 0.5px, 22.14% 0.3px, 22.86% 1.9px, 23.57% 1.2px, 24.29% 1.8px, 25.00% 1.6px, 25.71% 3.6px, 26.43% 4.1px, 27.14% 3.6px, 27.86% 4.9px, 28.57% 4.5px, 29.29% 4.3px, 30.00% 2.8px, 30.71% 3.7px, 31.43% 4.3px, 32.14% 4.5px, 32.86% 7.9px, 33.57% 5.4px, 34.29% 6.1px, 35.00% 6.3px, 35.71% 6.8px, 36.43% 7.2px, 37.14% 5.8px, 37.86% 4.9px, 38.57% 5.7px, 39.29% 5.8px, 40.00% 4.6px, 40.71% 6.2px, 41.43% 3.3px, 42.14% 5.8px, 42.86% 5.1px, 43.57% 4.0px, 44.29% 3.8px, 45.00% 3.9px, 45.71% 6.0px, 46.43% 3.2px, 47.14% 1.7px, 47.86% 1.3px, 48.57% 1.1px, 49.29% 1.3px, 50.00% 0.1px, 50.71% 0.8px, 51.43% 1.0px, 52.14% 2.5px, 52.86% 2.5px, 53.57% 3.0px, 54.29% 3.0px, 55.00% 5.1px, 55.71% 3.6px, 56.43% 2.3px, 57.14% 1.3px, 57.86% 1.6px, 58.57% 4.0px, 59.29% 0.0px, 60.00% 2.0px, 60.71% 1.8px, 61.43% 4.0px, 62.14% 4.6px, 62.86% 4.7px, 63.57% 5.6px, 64.29% 7.7px, 65.00% 4.5px, 65.71% 4.1px, 66.43% 7.0px, 67.14% 4.4px, 67.86% 5.1px, 68.57% 4.5px, 69.29% 5.8px, 70.00% 5.7px, 70.71% 6.7px, 71.43% 8.1px, 72.14% 10.3px, 72.86% 8.9px, 73.57% 8.5px, 74.29% 8.1px, 75.00% 6.3px, 75.71% 6.0px, 76.43% 6.0px, 77.14% 4.0px, 77.86% 4.3px, 78.57% 3.6px, 79.29% 4.4px, 80.00% 4.5px, 80.71% 4.0px, 81.43% 5.1px, 82.14% 3.8px, 82.86% 4.1px, 83.57% 2.4px, 84.29% 5.2px, 85.00% 3.7px, 85.71% 0.0px, 86.43% 0.4px, 87.14% 0.0px, 87.86% 0.0px, 88.57% 0.0px, 89.29% 0.3px, 90.00% 2.2px, 90.71% 2.0px, 91.43% 1.3px, 92.14% 4.0px, 92.86% 0.5px, 93.57% 0.7px, 94.29% 0.0px, 95.00% 1.9px, 95.71% 1.4px, 96.43% 2.6px, 97.14% 3.6px, 97.86% 4.9px, 98.57% 5.7px, 99.29% 7.7px, 100.00% 7.2px, 100.00% calc(100% - 3.8px), 99.29% calc(100% - 5.2px), 98.57% calc(100% - 2.8px), 97.86% calc(100% - 3.1px), 97.14% calc(100% - 2.3px), 96.43% calc(100% - 2.4px), 95.71% calc(100% - 1.9px), 95.00% calc(100% - 1.4px), 94.29% calc(100% - 2.7px), 93.57% calc(100% - 1.3px), 92.86% calc(100% - 2.1px), 92.14% calc(100% - 2.0px), 91.43% calc(100% - 1.3px), 90.71% calc(100% - 1.8px), 90.00% calc(100% - 1.6px), 89.29% calc(100% - 2.6px), 88.57% calc(100% - 1.7px), 87.86% calc(100% - 1.0px), 87.14% calc(100% - 2.8px), 86.43% calc(100% - 3.4px), 85.71% calc(100% - 3.5px), 85.00% calc(100% - 4.6px), 84.29% calc(100% - 5.8px), 83.57% calc(100% - 5.2px), 82.86% calc(100% - 4.2px), 82.14% calc(100% - 3.9px), 81.43% calc(100% - 4.3px), 80.71% calc(100% - 4.5px), 80.00% calc(100% - 4.9px), 79.29% calc(100% - 7.4px), 78.57% calc(100% - 4.4px), 77.86% calc(100% - 4.1px), 77.14% calc(100% - 5.2px), 76.43% calc(100% - 6.2px), 75.71% calc(100% - 5.1px), 75.00% calc(100% - 4.4px), 74.29% calc(100% - 4.0px), 73.57% calc(100% - 3.8px), 72.86% calc(100% - 2.9px), 72.14% calc(100% - 2.8px), 71.43% calc(100% - 2.8px), 70.71% calc(100% - 2.4px), 70.00% calc(100% - 3.6px), 69.29% calc(100% - 2.5px), 68.57% calc(100% - 6.4px), 67.86% calc(100% - 3.8px), 67.14% calc(100% - 4.4px), 66.43% calc(100% - 2.8px), 65.71% calc(100% - 2.3px), 65.00% calc(100% - 2.6px), 64.29% calc(100% - 4.1px), 63.57% calc(100% - 0.8px), 62.86% calc(100% - 0.4px), 62.14% calc(100% - 0.0px), 61.43% calc(100% - 0.0px), 60.71% calc(100% - 0.0px), 60.00% calc(100% - 0.0px), 59.29% calc(100% - 1.5px), 58.57% calc(100% - 0.2px), 57.86% calc(100% - 3.4px), 57.14% calc(100% - 2.3px), 56.43% calc(100% - 2.5px), 55.71% calc(100% - 1.7px), 55.00% calc(100% - 0.8px), 54.29% calc(100% - 1.1px), 53.57% calc(100% - 1.9px), 52.86% calc(100% - 0.8px), 52.14% calc(100% - 3.6px), 51.43% calc(100% - 3.6px), 50.71% calc(100% - 3.7px), 50.00% calc(100% - 6.0px), 49.29% calc(100% - 6.9px), 48.57% calc(100% - 6.3px), 47.86% calc(100% - 6.6px), 47.14% calc(100% - 6.5px), 46.43% calc(100% - 5.3px), 45.71% calc(100% - 6.1px), 45.00% calc(100% - 5.7px), 44.29% calc(100% - 5.9px), 43.57% calc(100% - 5.2px), 42.86% calc(100% - 4.3px), 42.14% calc(100% - 3.3px), 41.43% calc(100% - 4.4px), 40.71% calc(100% - 5.3px), 40.00% calc(100% - 6.8px), 39.29% calc(100% - 8.4px), 38.57% calc(100% - 4.2px), 37.86% calc(100% - 3.9px), 37.14% calc(100% - 1.5px), 36.43% calc(100% - 1.0px), 35.71% calc(100% - 0.8px), 35.00% calc(100% - 0.8px), 34.29% calc(100% - 0.9px), 33.57% calc(100% - 2.0px), 32.86% calc(100% - 2.2px), 32.14% calc(100% - 3.4px), 31.43% calc(100% - 5.1px), 30.71% calc(100% - 1.2px), 30.00% calc(100% - 1.1px), 29.29% calc(100% - 1.5px), 28.57% calc(100% - 1.7px), 27.86% calc(100% - 0.4px), 27.14% calc(100% - 1.0px), 26.43% calc(100% - 0.0px), 25.71% calc(100% - 0.2px), 25.00% calc(100% - 0.1px), 24.29% calc(100% - 0.5px), 23.57% calc(100% - 0.3px), 22.86% calc(100% - 1.2px), 22.14% calc(100% - 2.3px), 21.43% calc(100% - 3.7px), 20.71% calc(100% - 4.7px), 20.00% calc(100% - 5.4px), 19.29% calc(100% - 4.7px), 18.57% calc(100% - 5.3px), 17.86% calc(100% - 4.8px), 17.14% calc(100% - 4.5px), 16.43% calc(100% - 4.1px), 15.71% calc(100% - 4.8px), 15.00% calc(100% - 5.2px), 14.29% calc(100% - 7.5px), 13.57% calc(100% - 7.5px), 12.86% calc(100% - 7.7px), 12.14% calc(100% - 7.0px), 11.43% calc(100% - 6.1px), 10.71% calc(100% - 6.7px), 10.00% calc(100% - 4.6px), 9.29% calc(100% - 4.7px), 8.57% calc(100% - 5.5px), 7.86% calc(100% - 5.2px), 7.14% calc(100% - 4.0px), 6.43% calc(100% - 6.8px), 5.71% calc(100% - 6.1px), 5.00% calc(100% - 7.0px), 4.29% calc(100% - 6.4px), 3.57% calc(100% - 6.0px), 2.86% calc(100% - 6.3px), 2.14% calc(100% - 5.9px), 1.43% calc(100% - 5.4px), 0.71% calc(100% - 4.6px), 0.00% calc(100% - 5.0px))}
+.tira-papel{position:relative;background:#f4ecdc;clip-path:polygon(0.00% 13.1px, 0.71% 12.7px, 1.43% 14.2px, 2.14% 10.3px, 2.86% 11.7px, 3.57% 12.5px, 4.29% 12.8px, 5.00% 13.1px, 5.71% 13.1px, 6.43% 16.3px, 7.14% 12.9px, 7.86% 11.0px, 8.57% 10.3px, 9.29% 10.4px, 10.00% 10.2px, 10.71% 9.7px, 11.43% 9.7px, 12.14% 7.8px, 12.86% 7.0px, 13.57% 7.2px, 14.29% 7.2px, 15.00% 7.5px, 15.71% 8.1px, 16.43% 9.1px, 17.14% 9.7px, 17.86% 9.9px, 18.57% 8.0px, 19.29% 8.4px, 20.00% 7.9px, 20.71% 6.9px, 21.43% 7.4px, 22.14% 6.9px, 22.86% 12.3px, 23.57% 9.7px, 24.29% 10.0px, 25.00% 14.3px, 25.71% 10.7px, 26.43% 10.5px, 27.14% 11.8px, 27.86% 12.5px, 28.57% 10.9px, 29.29% 9.7px, 30.00% 10.0px, 30.71% 13.1px, 31.43% 10.5px, 32.14% 12.6px, 32.86% 13.2px, 33.57% 14.1px, 34.29% 14.3px, 35.00% 15.1px, 35.71% 14.0px, 36.43% 12.5px, 37.14% 12.9px, 37.86% 14.3px, 38.57% 14.1px, 39.29% 13.9px, 40.00% 10.7px, 40.71% 10.4px, 41.43% 12.8px, 42.14% 11.6px, 42.86% 10.7px, 43.57% 10.6px, 44.29% 9.7px, 45.00% 8.7px, 45.71% 7.4px, 46.43% 10.1px, 47.14% 7.3px, 47.86% 6.1px, 48.57% 5.5px, 49.29% 5.8px, 50.00% 5.6px, 50.71% 6.2px, 51.43% 7.0px, 52.14% 6.9px, 52.86% 7.9px, 53.57% 7.9px, 54.29% 7.0px, 55.00% 6.3px, 55.71% 7.4px, 56.43% 6.9px, 57.14% 7.7px, 57.86% 8.0px, 58.57% 8.4px, 59.29% 9.1px, 60.00% 10.2px, 60.71% 11.1px, 61.43% 14.5px, 62.14% 12.7px, 62.86% 12.5px, 63.57% 13.3px, 64.29% 13.3px, 65.00% 13.0px, 65.71% 11.9px, 66.43% 13.9px, 67.14% 11.1px, 67.86% 10.7px, 68.57% 12.1px, 69.29% 13.7px, 70.00% 17.0px, 70.71% 12.9px, 71.43% 13.1px, 72.14% 12.1px, 72.86% 11.6px, 73.57% 10.0px, 74.29% 9.3px, 75.00% 8.4px, 75.71% 8.4px, 76.43% 7.6px, 77.14% 9.1px, 77.86% 12.8px, 78.57% 12.8px, 79.29% 9.8px, 80.00% 9.3px, 80.71% 11.0px, 81.43% 7.7px, 82.14% 6.0px, 82.86% 9.1px, 83.57% 5.7px, 84.29% 5.3px, 85.00% 5.9px, 85.71% 5.7px, 86.43% 5.8px, 87.14% 7.6px, 87.86% 7.5px, 88.57% 8.1px, 89.29% 9.5px, 90.00% 10.3px, 90.71% 9.9px, 91.43% 9.6px, 92.14% 9.2px, 92.86% 9.1px, 93.57% 9.5px, 94.29% 9.1px, 95.00% 10.0px, 95.71% 12.2px, 96.43% 13.8px, 97.14% 13.6px, 97.86% 13.0px, 98.57% 13.6px, 99.29% 14.1px, 100.00% 14.0px, 100.00% calc(100% - 13.3px), 99.29% calc(100% - 15.2px), 98.57% calc(100% - 15.2px), 97.86% calc(100% - 15.5px), 97.14% calc(100% - 15.6px), 96.43% calc(100% - 14.3px), 95.71% calc(100% - 13.2px), 95.00% calc(100% - 13.0px), 94.29% calc(100% - 11.6px), 93.57% calc(100% - 11.2px), 92.86% calc(100% - 12.5px), 92.14% calc(100% - 10.2px), 91.43% calc(100% - 10.5px), 90.71% calc(100% - 9.8px), 90.00% calc(100% - 10.7px), 89.29% calc(100% - 9.7px), 88.57% calc(100% - 9.9px), 87.86% calc(100% - 10.8px), 87.14% calc(100% - 10.5px), 86.43% calc(100% - 9.4px), 85.71% calc(100% - 8.2px), 85.00% calc(100% - 7.1px), 84.29% calc(100% - 6.9px), 83.57% calc(100% - 7.0px), 82.86% calc(100% - 6.9px), 82.14% calc(100% - 6.5px), 81.43% calc(100% - 8.3px), 80.71% calc(100% - 8.4px), 80.00% calc(100% - 8.5px), 79.29% calc(100% - 10.1px), 78.57% calc(100% - 9.1px), 77.86% calc(100% - 9.4px), 77.14% calc(100% - 10.5px), 76.43% calc(100% - 9.8px), 75.71% calc(100% - 9.3px), 75.00% calc(100% - 8.8px), 74.29% calc(100% - 13.6px), 73.57% calc(100% - 10.4px), 72.86% calc(100% - 11.5px), 72.14% calc(100% - 13.8px), 71.43% calc(100% - 12.6px), 70.71% calc(100% - 12.9px), 70.00% calc(100% - 13.3px), 69.29% calc(100% - 16.0px), 68.57% calc(100% - 12.0px), 67.86% calc(100% - 12.8px), 67.14% calc(100% - 11.7px), 66.43% calc(100% - 12.6px), 65.71% calc(100% - 11.8px), 65.00% calc(100% - 13.3px), 64.29% calc(100% - 12.0px), 63.57% calc(100% - 11.4px), 62.86% calc(100% - 11.8px), 62.14% calc(100% - 12.5px), 61.43% calc(100% - 11.9px), 60.71% calc(100% - 10.1px), 60.00% calc(100% - 9.8px), 59.29% calc(100% - 13.3px), 58.57% calc(100% - 9.9px), 57.86% calc(100% - 8.5px), 57.14% calc(100% - 9.4px), 56.43% calc(100% - 6.7px), 55.71% calc(100% - 7.6px), 55.00% calc(100% - 9.3px), 54.29% calc(100% - 8.5px), 53.57% calc(100% - 10.4px), 52.86% calc(100% - 9.7px), 52.14% calc(100% - 9.4px), 51.43% calc(100% - 9.3px), 50.71% calc(100% - 8.8px), 50.00% calc(100% - 8.2px), 49.29% calc(100% - 6.9px), 48.57% calc(100% - 5.5px), 47.86% calc(100% - 6.6px), 47.14% calc(100% - 6.3px), 46.43% calc(100% - 6.3px), 45.71% calc(100% - 7.0px), 45.00% calc(100% - 10.4px), 44.29% calc(100% - 8.2px), 43.57% calc(100% - 8.9px), 42.86% calc(100% - 9.4px), 42.14% calc(100% - 10.5px), 41.43% calc(100% - 9.1px), 40.71% calc(100% - 9.1px), 40.00% calc(100% - 10.0px), 39.29% calc(100% - 10.8px), 38.57% calc(100% - 9.7px), 37.86% calc(100% - 8.9px), 37.14% calc(100% - 10.0px), 36.43% calc(100% - 10.8px), 35.71% calc(100% - 12.3px), 35.00% calc(100% - 13.6px), 34.29% calc(100% - 12.5px), 33.57% calc(100% - 12.0px), 32.86% calc(100% - 12.1px), 32.14% calc(100% - 11.4px), 31.43% calc(100% - 12.9px), 30.71% calc(100% - 10.9px), 30.00% calc(100% - 10.7px), 29.29% calc(100% - 10.6px), 28.57% calc(100% - 11.3px), 27.86% calc(100% - 11.3px), 27.14% calc(100% - 12.0px), 26.43% calc(100% - 10.9px), 25.71% calc(100% - 12.3px), 25.00% calc(100% - 11.7px), 24.29% calc(100% - 12.9px), 23.57% calc(100% - 9.2px), 22.86% calc(100% - 8.7px), 22.14% calc(100% - 7.5px), 21.43% calc(100% - 9.3px), 20.71% calc(100% - 6.1px), 20.00% calc(100% - 6.5px), 19.29% calc(100% - 7.1px), 18.57% calc(100% - 7.3px), 17.86% calc(100% - 8.1px), 17.14% calc(100% - 7.0px), 16.43% calc(100% - 6.9px), 15.71% calc(100% - 9.8px), 15.00% calc(100% - 7.8px), 14.29% calc(100% - 7.9px), 13.57% calc(100% - 7.8px), 12.86% calc(100% - 8.0px), 12.14% calc(100% - 7.0px), 11.43% calc(100% - 6.9px), 10.71% calc(100% - 7.9px), 10.00% calc(100% - 7.5px), 9.29% calc(100% - 9.2px), 8.57% calc(100% - 11.0px), 7.86% calc(100% - 11.3px), 7.14% calc(100% - 13.2px), 6.43% calc(100% - 12.7px), 5.71% calc(100% - 12.4px), 5.00% calc(100% - 13.2px), 4.29% calc(100% - 12.4px), 3.57% calc(100% - 12.9px), 2.86% calc(100% - 11.9px), 2.14% calc(100% - 12.1px), 1.43% calc(100% - 11.8px), 0.71% calc(100% - 13.2px), 0.00% calc(100% - 12.0px));padding:40px 0 34px}
+.tira-papel::before{content:"";position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .31 0 0 0 0 .13 0 0 0 0 0 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");pointer-events:none}
+.trilho{position:relative;display:flex;gap:22px;overflow-x:auto;padding:0 28px;scrollbar-width:none;cursor:grab}
+.trilho::-webkit-scrollbar{display:none}
+.cabine{flex:0 0 auto;text-decoration:none;text-align:center;color:var(--vinho)}
+.cabine .foto{position:relative;display:block;height:270px;background:#fff;padding:7px;box-shadow:0 2px 5px rgba(79,33,0,.18);transition:transform .35s ease}
+.cabine .foto img{display:block;height:100%;width:auto}
+.cabine .foto:has(img) .vazio{display:none}
+.cabine .vazio{width:160px;display:flex;align-items:center;justify-content:center;height:100%;font-size:.7rem;color:var(--marrom);background:linear-gradient(140deg,var(--creme),var(--rosa))}
+.cabine .nome{display:block;margin-top:.7rem;font-family:var(--f-display);text-transform:uppercase;letter-spacing:.05em;font-size:1.25rem;line-height:1}
+.cabine .estilo{display:block;margin-top:.25rem;font-size:.74rem;color:var(--marrom)}
+.cabine:hover .foto,.cabine:focus-visible .foto{transform:rotate(-2deg) scale(1.04)}
+.cabine:nth-child(even):hover .foto{transform:rotate(2deg) scale(1.04)}
+.selinho{display:inline-block;font-size:.78rem;color:var(--marrom);border:1px dashed var(--rosa-velho);border-radius:999px;padding:.2rem .7rem}
+.tira-nota{text-align:center;margin-top:1.8rem;font-size:.85rem;color:var(--marrom)}
+.tira-nota .selinho{margin:0 .4rem 0 0}
+@media (min-width:760px){.tira-wrap{margin-top:3.5rem}.cabine .foto{height:400px}.cabine .vazio{width:240px}.cabine .nome{font-size:1.45rem}.trilho{gap:30px;padding:0 40px}}
+.galeria .fecho{text-align:center;margin-top:3.5rem}
+
+/* faq */
+.faq{background:var(--creme);padding-top:0}
+.faq h2{text-align:center}
+.faq-lista{max-width:42rem;margin:2.5rem auto 0}
+details{border-bottom:1px solid var(--rosa)}
+summary{list-style:none;cursor:pointer;padding:1.2rem 0;display:flex;justify-content:space-between;gap:1rem;align-items:center;font-family:var(--f-display);font-size:clamp(1.55rem,4.6vw,2.1rem);line-height:1}
+summary::-webkit-details-marker{display:none}
+summary .star{width:.7em;height:.7em;color:var(--rosa-velho);transition:transform .3s}
+details[open] summary .star{transform:rotate(45deg);color:var(--vinho)}
+details p{padding:0 0 1.3rem;color:var(--marrom);max-width:38rem}
+.faq .fecho{text-align:center;margin-top:3rem}
+
+/* fechamento */
+.final{background:var(--verde-claro);text-align:center}
+.final h2{color:var(--vinho)}
+.final .frase{margin-bottom:1.2rem}
+
+/* rodapé */
+.rodape{background:var(--oliva);color:var(--creme);padding-block:3.5rem 6.5rem;text-align:center}
+.rodape .lema{font-family:var(--f-display);font-size:clamp(2.2rem,7vw,3.4rem);line-height:.95}
+.rodape .contato{display:grid;gap:.4rem;margin-top:2rem;font-size:.95rem}
+.rodape a{text-underline-offset:.25em}
+.rede{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;text-decoration:none}
+.rede:hover span{text-decoration:underline}
+.ico{width:1.5rem;height:1.5rem;flex:none}
+.rodape small{display:block;margin-top:2rem;opacity:.85;font-size:.8rem}
+@media (min-width:861px){.rodape{padding-bottom:3.5rem}}
+
+/* barra fixa no celular */
+.barra{position:fixed;left:0;right:0;bottom:0;z-index:30;padding:.7rem 1rem calc(.7rem + env(safe-area-inset-bottom));background:linear-gradient(to top,var(--creme) 70%,transparent);display:none}
+.barra .btn{width:100%}
+@media (max-width:860px){.barra{display:block}}
+
+
+/* ===== scrapbook ===== */
+.textura{background-color:var(--creme);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .31 0 0 0 0 .13 0 0 0 0 0 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='700'%3E%3Cfilter id='a'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.009' numOctaves='5' seed='7'/%3E%3CfeDiffuseLighting lighting-color='%23ffffff' surfaceScale='3.2'%3E%3CfeDistantLight azimuth='40' elevation='70'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23a)'/%3E%3C/svg%3E");background-size:160px 160px,700px 700px;background-blend-mode:normal,multiply}
+.peca{position:relative;rotate:var(--r,0deg)}
+.fita{position:absolute;width:5.5rem;height:1.6rem;top:-.75rem;left:50%;translate:-50% 0;rotate:var(--fr,-3deg);background:color-mix(in srgb,var(--salvia) 72%,transparent);
+  clip-path:polygon(0 8%,4% 0,8% 10%,12% 0,100% 0,96% 12%,100% 25%,96% 40%,100% 55%,96% 70%,100% 85%,96% 100%,0 100%,4% 88%,0 75%,4% 60%,0 45%,4% 30%);z-index:3;box-shadow:inset 0 0 0 100vmax rgba(255,255,255,.08)}
+.fita.rosa{background:color-mix(in srgb,var(--rosa-velho) 55%,transparent)}
+.fita.canto-e{left:0;top:-.4rem;translate:-30% 0;--fr:-38deg}
+.fita.canto-d{left:auto;right:0;top:-.4rem;translate:30% 0;--fr:38deg}
+.selo-postal{--b:6px;display:inline-grid;place-items:center;padding:var(--b);background:#fff8e8;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,radial-gradient(circle 3.4px,#0000 96%,#000) 0 0/12px 12px round;
+  mask:linear-gradient(#000 0 0) content-box,radial-gradient(circle 3.4px,#0000 96%,#000) 0 0/12px 12px round;filter:drop-shadow(0 3px 4px rgba(79,33,0,.18))}
+.selo-postal>span{display:grid;place-items:center;border:1.5px dashed var(--rosa-velho);padding:.5rem .8rem;min-width:5.2rem;font-family:var(--f-display);color:var(--vinho);font-size:1.7rem;line-height:1;text-align:center}
+.selo-postal small{display:block;font:500 .62rem/1.2 var(--f-apoio);color:var(--marrom);letter-spacing:.06em;margin-top:.25rem}
+.lacre{width:3.4rem;height:3.4rem;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#8a2a47,var(--vinho) 60%,#45091d);color:var(--creme);
+  border-radius:48% 52% 46% 54%/52% 46% 54% 48%;box-shadow:0 2px 0 #3a0718,0 4px 10px rgba(69,9,29,.35),inset 0 0 0 5px rgba(0,0,0,.12)}
+.lacre .star{width:1.3rem;height:1.3rem}
+
+/* peças sendo coladas */
+.js .colar{opacity:0;transform:translateY(-16px) scale(1.06);rotate:calc(var(--r,0deg) - 7deg)}
+.js .colar.colado{opacity:1;transform:none;rotate:var(--r,0deg);transition:opacity .35s ease var(--d,0s),transform .7s cubic-bezier(.3,1.5,.5,1) var(--d,0s),rotate .7s cubic-bezier(.3,1.5,.5,1) var(--d,0s)}
+.js .colar .fita{opacity:0;transform:scaleX(.3)}
+.js .colar.colado .fita{opacity:1;transform:none;transition:opacity .2s ease calc(var(--d,0s) + .45s),transform .35s ease calc(var(--d,0s) + .45s)}
+@media (prefers-reduced-motion:reduce){.js .colar,.js .colar .fita{opacity:1!important;transform:none!important;rotate:var(--r,0deg)!important}}
+
+/* fragmentos como etiquetas de papel */
+.fragmentos ul{display:flex;flex-wrap:wrap;gap:1.1rem .9rem;padding-top:.8rem}
+.fragmentos li{background:#fff8e8;padding:.6rem 1rem;box-shadow:0 3px 8px rgba(79,33,0,.13);gap:.5rem}
+.fragmentos li:nth-child(1){--r:-2deg}.fragmentos li:nth-child(2){--r:1.5deg}.fragmentos li:nth-child(3){--r:-1deg}
+.fragmentos li:nth-child(2){--d:.08s}.fragmentos li:nth-child(3){--d:.16s}.fragmentos li:nth-child(4){--d:.24s}.fragmentos li:nth-child(5){--d:.32s}.fragmentos li:nth-child(6){--d:.4s}
+.fragmentos li:nth-child(4){--r:2.5deg}.fragmentos li:nth-child(5){--r:-2.5deg}.fragmentos li:nth-child(6){--r:1deg}
+
+/* selo de preço nas molduras */
+.moldura-wrap{position:relative}
+.moldura-wrap .selo-preco{position:absolute;right:-1.2rem;bottom:.4rem;--r:9deg;z-index:2}
+.produto:nth-child(2) .selo-preco{--r:-7deg;right:auto;left:-1.2rem}
+
+/* selos de cera nos passos */
+.passos .selo{box-shadow:0 2px 0 #3a0718,0 6px 14px rgba(69,9,29,.3),inset 0 0 0 6px rgba(0,0,0,.12);background:radial-gradient(circle at 35% 30%,#8a2a47,var(--vinho) 60%,#45091d);border-radius:48% 52% 46% 54%/52% 46% 54% 48%}
+
+/* polaroids e telas */
+.demo{background:#fffaf0;border-radius:3px;padding:.9rem .9rem 1.6rem;box-shadow:0 8px 20px rgba(79,33,0,.16)}
+.demo:nth-child(1){--r:-2deg}.demo:nth-child(2){--r:1.5deg}.demo:nth-child(3){--r:-1deg}
+.demo .slot{border-radius:2px}
+
+/* envelope final */
+.final{padding-block:clamp(4rem,10vw,6rem) clamp(5rem,12vw,7rem)}
+.envelope{position:relative;width:min(34rem,92vw);aspect-ratio:3/2;margin:clamp(13rem,32vw,16rem) auto 0}
+.env-fundo,.env-bolso,.env-aba{position:absolute;inset:0}
+.env-fundo{background:#e9c9b6;border-radius:6px;box-shadow:0 18px 40px rgba(79,33,0,.22)}
+.env-palco{position:absolute;left:0;right:0;bottom:0;height:350%;overflow:hidden;z-index:2;pointer-events:none}
+.env-palco .env-carta{pointer-events:auto}
+.env-carta{position:absolute;left:5%;right:5%;bottom:1.72%;height:42.86%;background:#fffaf0;border-radius:4px;padding:1.6rem 1.2rem;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:.6rem;
+  box-shadow:0 2px 8px rgba(79,33,0,.15);transform:translateY(0);z-index:2;transition:transform 1s cubic-bezier(.3,1.2,.4,1) .55s}
+.env-carta h2{font-size:clamp(2.4rem,9vw,3.8rem)}
+.env-bolso{background:linear-gradient(to top right,#f3dccd 49.6%,transparent 50%) left/50.2% 100% no-repeat,linear-gradient(to top left,#f3dccd 49.6%,transparent 50%) right/50.2% 100% no-repeat,linear-gradient(to top,#f0d6c6 0 42%,transparent 42%);border-radius:0 0 6px 6px;pointer-events:none;z-index:3}
+.env-aba{height:62%;background:#efd3c2;clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transform:rotateX(180deg);z-index:1;transition:transform .7s ease,z-index 0s .35s;filter:drop-shadow(0 2px 2px rgba(0,0,0,.08))}
+.envelope .lacre{position:absolute;left:50%;top:62%;translate:-50% -50%;z-index:5;transition:opacity .3s,transform .3s}
+.js .envelope.fechado .env-aba{transform:none;z-index:4;transition:transform .7s ease}
+.js .envelope.fechado .env-carta{transform:translateY(64%);opacity:0}
+.js .envelope .env-carta{transition:transform 1s cubic-bezier(.3,1.2,.4,1) .55s,opacity .35s ease .45s}
+.js .envelope.fechado .lacre{opacity:1}
+.envelope:not(.fechado) .lacre{opacity:0;transform:scale(.6)}
+@media (prefers-reduced-motion:reduce){.envelope .env-carta,.envelope .env-aba{transition:none}}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="estrela" viewBox="0 0 24 24"><path d="M12 0C12.9 7.6 16.4 11.1 24 12 16.4 12.9 12.9 16.4 12 24 11.1 16.4 7.6 12.9 0 12 7.6 11.1 11.1 7.6 12 0Z"/></symbol>
+</svg>
+
+<header class="topo">
+  <div class="wrap">
+    <a class="marca-mini" href="#inicio" aria-label="Luvie Studios, voltar ao início">LUVIE <svg class="star"><use href="#estrela"/></svg></a>
+    <nav aria-label="Seções">
+      <button class="menu-botao" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 7h18M3 12h18M3 17h18"/></svg>
+      </button>
+      <ul class="menu" id="menu">
+        <li><a href="#a-luvie">A Luvie</a></li>
+        <li><a href="#como-funciona">Como funciona</a></li>
+        <li><a href="#universos">Universos</a></li>
+        <li><a href="#galeria">Galeria</a></li>
+        <li><a href="#duvidas">Dúvidas</a></li>
+      </ul>
+    </nav>
+    <a class="btn" data-wa="Oi, Luvie! Quero um orçamento para o meu universo ✦" href="#">Pedir orçamento</a>
+  </div>
+</header>
+
+<main id="inicio">
+  <section class="abertura textura" aria-labelledby="t-abertura">
+    <div class="brilhos" aria-hidden="true">
+      <svg class="star" style="width:28px;height:28px;left:12%;top:16%"><use href="#estrela"/></svg>
+      <svg class="star" style="width:16px;height:16px;left:22%;top:34%"><use href="#estrela"/></svg>
+      <svg class="star" style="width:34px;height:34px;right:11%;top:22%"><use href="#estrela"/></svg>
+      <svg class="star" style="width:14px;height:14px;right:20%;top:42%"><use href="#estrela"/></svg>
+      <svg class="star" style="width:12px;height:12px;left:8%;bottom:20%"><use href="#estrela"/></svg>
+    </div>
+    <div class="wrap">
+      <div class="entra"><div class="logo-box"><img class="logo" src="img/logo-luvie-sem-estrela.png" width="719" height="388" alt="Luvie Studios"><img class="logo-estrela" src="img/estrela-luvie.svg" width="76" height="110" alt=""></div></div>
+      <h1 id="t-abertura" class="entra">O convite é só o começo.</h1>
+      <p class="sub entra">Criamos experiências digitais que transformam histórias em universos.</p>
+      <div class="acoes entra">
+        <a class="btn btn-cheio" data-wa="Oi, Luvie! Quero criar o meu universo ✦" href="#">Criar meu universo <svg class="star"><use href="#estrela"/></svg></a>
+        <a class="btn btn-linha" href="#galeria">Ver modelos</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="papel textura" aria-labelledby="t-historia">
+    <div class="wrap fragmentos">
+      <div>
+        <h2 id="t-historia">Tudo começa com uma história.</h2>
+        <p class="frase" style="margin-top:1rem">Antes do convite, existem os detalhes.</p>
+      </div>
+      <ul>
+        <li class="peca colar"><svg class="star"><use href="#estrela"/></svg>Uma fotografia.</li>
+        <li class="peca colar"><svg class="star"><use href="#estrela"/></svg>Uma música.</li>
+        <li><svg class="star"><use href="#estrela"/></svg>Um lugar.</li>
+        <li class="peca colar"><svg class="star"><use href="#estrela"/></svg>Uma memória.</li>
+        <li class="peca colar"><svg class="star"><use href="#estrela"/></svg>Uma textura.</li>
+        <li class="peca colar"><svg class="star"><use href="#estrela"/></svg>Uma pequena coisa que só faz sentido para vocês.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="fio textura" aria-label="Da história ao universo">
+    <div class="wrap">
+      <ol class="fio-lista" id="fio">
+        <li><span class="no" aria-hidden="true"><svg class="star"><use href="#estrela"/></svg></span><div><h3>História</h3><p>O que vocês viveram até aqui.</p></div></li>
+        <li><span class="no" aria-hidden="true"><svg class="star"><use href="#estrela"/></svg></span><div><h3>Fragmentos</h3><p>Uma fotografia vira narrativa. Uma música vira referência.</p></div></li>
+        <li><span class="no" aria-hidden="true"><svg class="star"><use href="#estrela"/></svg></span><div><h3>Atmosfera</h3><p>Um detalhe vira identidade: cores, texturas, palavras.</p></div></li>
+        <li><span class="no" aria-hidden="true"><svg class="star"><use href="#estrela"/></svg></span><div><h3>Universo</h3><p>Um convite digital feito para ser descoberto.</p></div></li>
+      </ol>
+      <p class="frase fio-fecho">A Luvie transforma esses fragmentos em uma atmosfera, uma linguagem e, finalmente, um universo digital que conta essa história.</p>
+    </div>
+  </section>
+
+  <section class="sobre textura" id="a-luvie" aria-labelledby="t-sobre">
+    <div class="wrap">
+      <h2 id="t-sobre">A Luvie</h2>
+      <div class="texto">
+        <p>A Luvie nasceu de uma ideia simples: algumas histórias merecem mais do que um convite.</p>
+        <p>Somos um estúdio de direção de arte para universos digitais. Escutamos a história, encontramos os fragmentos que fazem aquela celebração ser única e, a partir deles, construímos uma atmosfera própria.</p>
+        <p>Cada universo Luvie começa de um lugar diferente: a história de quem está celebrando.</p>
+        <p class="frase assin"><svg class="star"><use href="#estrela"/></svg>Toda história merece seu próprio universo.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="passos" id="como-funciona" aria-labelledby="t-passos">
+    <div class="wrap">
+      <h2 id="t-passos">Como funciona</h2>
+      <ol>
+        <li><div class="selo" aria-hidden="true">1</div><h3>Vocês contam a história</h3><p>Pelo WhatsApp, a gente conversa sobre vocês, a data e o que não pode faltar.</p></li>
+        <li><div class="selo" aria-hidden="true">2</div><h3>A Luvie cria o universo</h3><p>Transformamos os fragmentos em atmosfera: visual, textos e as informações do evento.</p></li>
+        <li><div class="selo" aria-hidden="true">3</div><h3>Vocês enviam o link</h3><p>Um link com tudo o que o convidado precisa saber: local, cronograma, RSVP e mais.</p></li>
+      </ol>
+      <div class="acoes"><a class="btn btn-cheio" data-wa="Oi, Luvie! Quero começar o meu universo ✦" href="#">Quero começar <svg class="star"><use href="#estrela"/></svg></a></div>
+    </div>
+  </section>
+
+  <section class="universos" id="universos" aria-labelledby="t-universos">
+    <div class="wrap">
+      <h2 id="t-universos">Escolha como a sua história começa.</h2>
+      <div class="cards">
+        <article class="produto">
+          <div class="moldura-wrap"><div class="moldura"><figure class="slot"><img src="img/essence.jpg" alt="Exemplo do convite Essence" onerror="this.remove()"><figcaption>imagem do Essence<br>(img/essence.jpg)</figcaption></figure></div><span class="selo-preco peca colar"><span class="selo-postal"><span>R$ 97<small>por convite</small></span></span></span></div>
+          <h3>Essence</h3>
+          <p class="preco">R$ 97</p>
+          <p class="desc">Para quem quer um convite digital personalizado, bonito e funcional, sem abrir mão da identidade.</p>
+          <a class="btn btn-cheio" href="#essence">Conhecer o Essence</a>
+        </article>
+        <article class="produto">
+          <div class="moldura-wrap"><div class="moldura"><figure class="slot"><img src="img/universe.jpg" alt="Exemplo do convite Universe" onerror="this.remove()"><figcaption>imagem do Universe<br>(img/universe.jpg)</figcaption></figure></div><span class="selo-preco peca colar"><span class="selo-postal"><span>R$ 227<small>por convite</small></span></span></span></div>
+          <h3>Universe</h3>
+          <p class="preco">R$ 227</p>
+          <p class="desc">Uma experiência criada a partir da história, das referências e dos detalhes que fazem essa celebração ser única.</p>
+          <a class="btn btn-cheio" href="#universe">Conhecer o Universe</a>
+        </article>
+        <article class="produto">
+          <div class="moldura-wrap"><div class="moldura"><figure class="slot"><img src="img/editions.jpg" alt="Exemplo de template Editions" onerror="this.remove()"><figcaption>imagem do Editions<br>(img/editions.jpg)</figcaption></figure></div><span class="selo-preco peca colar"><span class="selo-postal"><span>R$ 47<small>por convite</small></span></span></span></div>
+          <h3>Editions</h3>
+          <p class="preco">R$ 47</p>
+          <p class="desc">Uma seleção de experiências digitais criadas pela Luvie, prontas para personalizar.</p>
+          <a class="btn btn-cheio" href="#" data-wa="Oi, Luvie! Quero conhecer os templates Editions ✦">Conhecer o Editions</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="detalhes textura" aria-labelledby="t-escolher">
+    <div class="wrap">
+      <div class="duas">
+        <div class="bloco" id="essence">
+          <h3>Essence</h3>
+          <p class="p-alvo">Para vocês se querem um convite personalizado, valorizam estética e funcionalidade e preferem uma experiência digital sem uma construção narrativa profunda.</p>
+          <ul>
+            <li><svg class="star"><use href="#estrela"/></svg>Minisite personalizado</li>
+            <li><svg class="star"><use href="#estrela"/></svg>Informações do evento</li>
+            <li><svg class="star"><use href="#estrela"/></svg>RSVP</li>
+            <li><svg class="star"><use href="#estrela"/></svg>Localização + mapa</li>
+            <li><svg class="star"><use href="#estrela"/></svg>Dress code</li>
+            <li><svg class="star"><use href="#estrela"/></svg>Contagem regressiva</li>
+            <li><svg class="star"><use href="#estrela"/></svg>Responsividade para celular</li>
+            <li><svg class="star"><use href="#estrela"/></svg>Publicação e configuração</li>
+          </ul>
+          <a class="btn btn-cheio" data-wa="Oi, Luvie! Quero um orçamento para o Essence ✦" href="#">Quero o Essence</a>
+        </div>
+        <div class="bloco bloco-universe" id="universe">
+          <h3>Universe</h3>
+          <p class="p-alvo">Para vocês se querem contar a história do casal, têm referências, memórias e detalhes para transformar em linguagem visual e querem que o convite seja uma experiência.</p>
+          <ul>
+            <li><svg class="star"><use href="#estrela"/></svg>Save the Date personalizado</li>
+            <li><svg class="star"><use href="#estrela"/></svg>Love Archive: nossa imersão na história de vocês, que transforma memórias, referências e detalhes do casal em direção visual e narrativa</li>
+            <li><svg class="star"><use href="#estrela"/></svg>Conceito visual exclusivo</li>
+            <li><svg class="star"><use href="#estrela"/></svg>Narrativa personalizada</li>
+            <li><svg class="star"><use href="#estrela"/></svg>Monograma ou símbolo exclusivo</li>
+            <li><svg class="star"><use href="#estrela"/></svg>Animações e microinterações</li>
+            <li><svg class="star"><use href="#estrela"/></svg>Música</li>
+            <li><svg class="star"><use href="#estrela"/></svg>Seções personalizadas</li>
+            <li><svg class="star"><use href="#estrela"/></svg>Integração com a identidade física, quando houver</li>
+          </ul>
+          <a class="btn btn-oliva" data-wa="Oi, Luvie! Quero um orçamento para o Universe ✦" href="#">Quero o Universe</a>
+        </div>
+      </div>
+
+      <div class="tabela-wrap">
+        <h3 id="t-escolher">Como escolher</h3>
+        <table>
+          <caption class="frase" style="caption-side:bottom;margin-top:1rem;font-size:1.1rem">Na dúvida, a gente ajuda a escolher pelo WhatsApp.</caption>
+          <thead><tr><th scope="col"><span class="visually-hidden" style="position:absolute;left:-9999px">Item</span></th><th scope="col">Essence</th><th scope="col">Universe</th></tr></thead>
+          <tbody>
+            <tr><th scope="row" style="font-weight:400">Minisite personalizado</th><td class="sim">✓</td><td class="sim">✓</td></tr>
+            <tr><th scope="row" style="font-weight:400">Informações + RSVP</th><td class="sim">✓</td><td class="sim">✓</td></tr>
+            <tr><th scope="row" style="font-weight:400">Identidade visual</th><td class="sim">✓</td><td class="sim">✓</td></tr>
+            <tr><th scope="row" style="font-weight:400">Save the Date</th><td class="nao" aria-label="não incluso">—</td><td class="sim">✓</td></tr>
+            <tr><th scope="row" style="font-weight:400">Love Archive</th><td class="nao" aria-label="não incluso">—</td><td class="sim">✓</td></tr>
+            <tr><th scope="row" style="font-weight:400">Narrativa personalizada</th><td class="nao" aria-label="não incluso">—</td><td class="sim">✓</td></tr>
+            <tr><th scope="row" style="font-weight:400">Monograma ou símbolo</th><td class="nao" aria-label="não incluso">—</td><td class="sim">✓</td></tr>
+            <tr><th scope="row" style="font-weight:400">Animações e microinterações</th><td class="sim">✓</td><td class="sim">✓</td></tr>
+            <tr><th scope="row" style="font-weight:400">Experiência sensorial</th><td class="nao" aria-label="não incluso">—</td><td class="sim">✓</td></tr>
+            <tr><th scope="row" style="font-weight:400">Ajustes inclusos</th><td>2</td><td>4</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="galeria textura" id="galeria" aria-labelledby="t-galeria">
+    <div class="wrap">
+      <h2 id="t-galeria">Galeria de universos</h2>
+      <p class="intro lead">Modelos de demonstração para vocês sentirem cada universo por dentro.</p>
+      <div class="tira-wrap peca colar">
+        <div class="tira">
+          <div class="tira-fundo" aria-hidden="true"></div>
+          <div class="tira-papel">
+            <div class="trilho" id="trilho" aria-label="Modelos de demonstração">
+          <a class="cabine" href="#" data-demo="Trancoso"><span class="foto"><span class="vazio">modelo-trancoso.jpg</span><img src="img/modelo-trancoso.jpg" alt="Modelo Trancoso, floral em azul e amarelo" loading="lazy" onerror="this.remove()"></span><span class="nome">Trancoso</span><span class="estilo">floral em azul e amarelo</span></a>
+          <a class="cabine" href="#" data-demo="Versalhes"><span class="foto"><span class="vazio">modelo-versalhes.jpg</span><img src="img/modelo-versalhes.jpg" alt="Modelo Versalhes, boho natural" loading="lazy" onerror="this.remove()"></span><span class="nome">Versalhes</span><span class="estilo">boho natural</span></a>
+          <a class="cabine" href="#" data-demo="Sintra"><span class="foto"><span class="vazio">modelo-sintra.jpg</span><img src="img/modelo-sintra.jpg" alt="Modelo Sintra, clássico romântico" loading="lazy" onerror="this.remove()"></span><span class="nome">Sintra</span><span class="estilo">clássico romântico</span></a>
+          <a class="cabine" href="#" data-demo="Mônaco"><span class="foto"><span class="vazio">modelo-monaco.jpg</span><img src="img/modelo-monaco.jpg" alt="Modelo Mônaco, black tie" loading="lazy" onerror="this.remove()"></span><span class="nome">Mônaco</span><span class="estilo">black tie</span></a>
+          <a class="cabine" href="#" data-demo="Toscana"><span class="foto"><span class="vazio">modelo-toscana.jpg</span><img src="img/modelo-toscana.jpg" alt="Modelo Toscana, botânico leve" loading="lazy" onerror="this.remove()"></span><span class="nome">Toscana</span><span class="estilo">botânico leve</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="tira-nota"><span class="selinho">exemplo de demonstração</span> Toque em um universo e peça a demonstração pelo WhatsApp.</p>
+      <div class="fecho">
+        <p class="frase">Não encontrou o seu? O universo, a gente cria junto.</p>
+        <div class="acoes" style="margin-top:1.2rem"><a class="btn btn-oliva" data-wa="Oi, Luvie! Quero um orçamento para o meu universo ✦" href="#">Pedir orçamento <svg class="star"><use href="#estrela"/></svg></a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção Editions escondida na 1ª versão: para mostrar, apague o atributo hidden abaixo -->
+  <section class="editions" id="editions" aria-labelledby="t-editions" hidden>
+    <div class="wrap">
+      <div class="topo-sec">
+        <h2 id="t-editions">Editions</h2>
+        <p>Templates prontos para vocês editarem. Pagamento direto pelo Mercado Pago, com Pix ou cartão.</p>
+      </div>
+      <div class="templates">
+        <article class="template">
+          <div class="prancheta peca colar"><div class="prancheta-miolo"><figure class="slot"><img src="img/editions-1.jpg" alt="Template Editions 1" loading="lazy" onerror="this.remove()"><figcaption>imagem do template 1<br>(img/editions-1.jpg)</figcaption></figure><h3>[Nome do template 1]</h3><p class="preco">R$ 47</p></div></div>
+          <a class="btn" href="https://link.mercadopago.com.br/editions">Comprar</a>
+        </article>
+        <article class="template">
+          <div class="prancheta peca colar"><div class="prancheta-miolo"><figure class="slot"><img src="img/editions-2.jpg" alt="Template Editions 2" loading="lazy" onerror="this.remove()"><figcaption>imagem do template 2<br>(img/editions-2.jpg)</figcaption></figure><h3>[Nome do template 2]</h3><p class="preco">R$ 47</p></div></div>
+          <a class="btn" href="https://link.mercadopago.com.br/editions">Comprar</a>
+        </article>
+        <article class="template">
+          <div class="prancheta peca colar"><div class="prancheta-miolo"><figure class="slot"><img src="img/editions-3.jpg" alt="Template Editions 3" loading="lazy" onerror="this.remove()"><figcaption>imagem do template 3<br>(img/editions-3.jpg)</figcaption></figure><h3>[Nome do template 3]</h3><p class="preco">R$ 47</p></div></div>
+          <a class="btn" href="https://link.mercadopago.com.br/editions">Comprar</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq textura" id="duvidas" aria-labelledby="t-faq" style="padding-top:clamp(4rem,11vw,7.5rem)">
+    <div class="wrap">
+      <h2 id="t-faq">Perguntas frequentes</h2>
+      <div class="faq-lista">
+        <details><summary>Qual a diferença entre Essence, Universe e Editions?<svg class="star" aria-hidden="true"><use href="#estrela"/></svg></summary><p>Essence é um convite digital personalizado e funcional. Universe nasce da história de vocês, com narrativa e identidade exclusivas. Editions são templates prontos para editar.</p></details>
+        <details><summary>Qual o prazo de entrega?<svg class="star" aria-hidden="true"><use href="#estrela"/></svg></summary><p>Depende de cada projeto. Combinamos o prazo na conversa de orçamento, de acordo com a data do evento.</p></details>
+        <details><summary>Como os convidados confirmam presença?<svg class="star" aria-hidden="true"><use href="#estrela"/></svg></summary><p>Pelo próprio link: o minisite tem confirmação de presença (RSVP).</p></details>
+        <details><summary>Posso fazer alterações?<svg class="star" aria-hidden="true"><use href="#estrela"/></svg></summary><p>Sim. O Essence inclui 2 ajustes e o Universe inclui 4.</p></details>
+        <details><summary>Quais as formas de pagamento?<svg class="star" aria-hidden="true"><use href="#estrela"/></svg></summary><p>Pelo Mercado Pago, com Pix ou cartão. Editions: compra direta pelo link de pagamento que enviamos no WhatsApp. Essence e Universe: pagamento após o orçamento.</p></details>
+        <details><summary>E os dados dos meus convidados?<svg class="star" aria-hidden="true"><use href="#estrela"/></svg></summary><p>As confirmações são feitas por um formulário do Canva: as respostas ficam guardadas no Canva, protegidas pela <a href="https://www.canva.com/policies/privacy-policy/">Política de Privacidade do Canva</a>, e são usadas só para organizar o seu evento.</p></details>
+      </div>
+      <div class="fecho">
+        <p class="frase">Ainda com dúvida? A gente responde com carinho.</p>
+        <div class="acoes" style="margin-top:1.2rem"><a class="btn btn-linha" data-wa="Oi, Luvie! Tenho uma dúvida ✦" href="#">Falar com a Luvie</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="final textura" aria-labelledby="t-final">
+    <div class="wrap">
+      <div class="envelope fechado" id="envelope">
+        <div class="env-fundo"></div>
+        <div class="env-palco"><div class="env-carta">
+          <p class="frase" style="font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(1.2rem,3.6vw,1.5rem)">A história é de vocês. O universo, a gente cria junto.</p>
+          <h2 id="t-final">Vamos começar?</h2>
+          <a class="btn btn-cheio" data-wa="Oi, Luvie! Quero criar o meu universo ✦" href="#">Criar meu universo <svg class="star"><use href="#estrela"/></svg></a>
+        </div></div>
+        <div class="env-aba"></div>
+        <div class="env-bolso"></div>
+        <span class="lacre" aria-hidden="true"><svg class="star"><use href="#estrela"/></svg></span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="rodape">
+  <div class="wrap">
+    <p class="lema">Toda história merece seu próprio universo.</p>
+    <div class="contato">
+      <a class="rede" data-wa="Oi, Luvie! ✦" href="#" aria-label="WhatsApp (19) 99755-6518"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a9.9 9.9 0 0 0-8.5 15l-1.4 5 5.1-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.5-.3Z"/></svg><span>(19) 99755-6518</span></a>
+      <a href="mailto:studiosluvie@gmail.com">studiosluvie@gmail.com</a>
+      <a class="rede" href="https://www.instagram.com/luviestudios_/" aria-label="Instagram @luviestudios_"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor"/></svg><span>@luviestudios_</span></a>
+    </div>
+    <small>2026, Luvie Studios. Todos os direitos reservados. <a href="privacidade.html">Política de Privacidade</a></small>
+  </div>
+</footer>
+
+<div class="barra"><a class="btn btn-cheio" data-wa="Oi, Luvie! Quero um orçamento para o meu universo ✦" href="#">Pedir orçamento pelo WhatsApp</a></div>
+
+<script>
+document.documentElement.classList.replace("sem-js","js");
+// Links de WhatsApp com mensagem pronta
+const WA = "https://wa.me/5519997556518?text=";
+document.querySelectorAll("[data-wa]").forEach(a => { a.href = WA + encodeURIComponent(a.dataset.wa); });
+// Demonstrações ainda sem link: levam ao WhatsApp
+document.querySelectorAll("[data-demo]").forEach(a => {
+  if (a.getAttribute("href") === "#") a.href = WA + encodeURIComponent(a.dataset.demo ? "Oi, Luvie! Quero ver a demonstração do modelo " + a.dataset.demo + " ✦" : "Oi, Luvie! Quero ver uma demonstração ✦");
+});
+// Galeria: tira que desliza sozinha e aceita arrastar
+(() => {
+  const t = document.getElementById("trilho"); if (!t) return;
+  const orig = [...t.children];
+  orig.forEach(c => { const k = c.cloneNode(true); k.setAttribute("aria-hidden","true"); k.tabIndex = -1; t.appendChild(k); });
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  let pos = 0, pausa = false, volta;
+  const metade = () => t.children[orig.length].offsetLeft - orig[0].offsetLeft;
+  const parar = () => { pausa = true; clearTimeout(volta); };
+  const seguir = () => { clearTimeout(volta); volta = setTimeout(() => { pos = t.scrollLeft; pausa = false; }, 2500); };
+  ["pointerenter","touchstart","focusin","wheel"].forEach(e => t.addEventListener(e, parar, {passive:true}));
+  ["pointerleave","touchend","focusout"].forEach(e => t.addEventListener(e, seguir, {passive:true}));
+  // arrastar com o mouse
+  let x0 = null, s0 = 0, moveu = false;
+  t.addEventListener("pointerdown", e => { if (e.pointerType !== "mouse") return; x0 = e.clientX; s0 = t.scrollLeft; moveu = false; });
+  addEventListener("pointermove", e => { if (x0 === null) return; const d = e.clientX - x0; if (Math.abs(d) > 4) moveu = true; t.scrollLeft = s0 - d; });
+  addEventListener("pointerup", () => { x0 = null; });
+  t.addEventListener("click", e => { if (moveu) { e.preventDefault(); moveu = false; } }, true);
+  const passo = () => {
+    if (!pausa) { pos += .45; const m = metade(); if (pos >= m) pos -= m; t.scrollLeft = pos; }
+    else if (t.scrollLeft >= metade()) { t.scrollLeft -= metade(); }
+    requestAnimationFrame(passo);
+  };
+  requestAnimationFrame(passo);
+})();
+// Menu do celular
+const botao = document.querySelector(".menu-botao"), menu = document.getElementById("menu");
+botao.addEventListener("click", () => {
+  const aberto = menu.classList.toggle("aberto");
+  botao.setAttribute("aria-expanded", aberto);
+  botao.setAttribute("aria-label", aberto ? "Fechar menu" : "Abrir menu");
+});
+menu.addEventListener("click", e => { if (e.target.closest("a")) { menu.classList.remove("aberto"); botao.setAttribute("aria-expanded", false); } });
+// O fio da história acende conforme a rolagem
+const fio = document.getElementById("fio"), itens = [...fio.children];
+const calma = matchMedia("(prefers-reduced-motion: reduce)").matches;
+function acender() {
+  const meio = innerHeight * 0.62; let acesos = 0;
+  itens.forEach(li => { const on = calma || li.getBoundingClientRect().top < meio; li.classList.toggle("aceso", on); if (on) acesos++; });
+  fio.style.setProperty("--p", Math.max(0, (acesos - 1) / (itens.length - 1)));
+}
+// peças de scrapbook "coladas" quando aparecem
+const pecas = document.querySelectorAll(".colar");
+const env = document.getElementById("envelope");
+if (calma || !("IntersectionObserver" in window)) { pecas.forEach(p => p.classList.add("colado")); env.classList.remove("fechado"); }
+else {
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("colado"); io.unobserve(e.target); } }), { threshold: .25 });
+  pecas.forEach(p => io.observe(p));
+  const ioEnv = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { env.classList.remove("fechado"); ioEnv.disconnect(); } }), { threshold: .6 });
+  ioEnv.observe(env);
+}
+addEventListener("scroll", acender, { passive: true }); addEventListener("resize", acender); acender();
+</script>
+</body>
+</html>
